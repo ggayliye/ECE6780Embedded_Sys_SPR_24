@@ -10,18 +10,31 @@ Date: 8-February-2024 (Time of when submission is/will be ready to be evaluated)
 Solution: Lab1<br>
 Copyright: ECE 6780, Kyle G. Gayliyev - This work may not be copied for use in Academic Coursework.
 
-<u>**Lab 01:**</u><br>
+<u>**Lab 01: Writing Basic I/O Code**</u><br>
 
-## Overview of the Lab 01 Solution functionality
+## Overview of the Lab 01 
+This lab explores two basic operations of the GPIO: Blinking LEDs, 
+and reading the state of a pushbutton. <br>
 
-The purpose of the "Lab 01" Solution is to ... 
+**Note:** I will write the applications using only peripheral register
+access. The single exception to this will be the HAL_Delay() function.<br>
+
+The  Lab 01 is consisted of 2 assignements:<br>
+
+Assignment 1: Configuring a GPIO Pin to Output and Blink an LED<br>
+
+Assignment 2: Configuring a GPIO Pin to Input and Reading a Button<br>
 
 
+### Assignment 1: Configuring a GPIO Pin to Output and Blink an LED
 
+Assignemnt 1 requires to create the blinking demo using red and blue LEDs
+on the Discovery board. 
+<br>
+This assignment will be completed in two steps:<br>
 
-
-
-
+Step 1: Converting the HAL Library Calls to Register Access <br>
+Step 2: Changing to the New LEDs <br>
 
 
 
