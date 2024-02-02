@@ -117,7 +117,7 @@ This concept is similar to the "divide and conquer" principle where you divide
 a big software project into small projects to complete. A software design technique that focuses on separating 
 and freeing functionalities of a program is called Modular programming. Making each of the divided small 
 projects independent and addressing a separate concern, it'll make it easy to reduce, detect 
-and fix the errors. <a href="https://en.wikipedia.org/wiki/Separation_of_concerns">[5]</a>
+and fix the errors. <a href="https://en.wikipedia.org/wiki/Separation_of_concerns">[3]</a>
 
 <pre><ins>Good Code Typing Practices</ins> :</pre>
 Good coding practices can be listed as: Naming variables with a relevant name, commenting 
@@ -131,7 +131,7 @@ Unit Testing can be summarized in 3 types of techniques:<br>
 1. <ins>Black Box Testing : </ins> In this testing, input, user interface, and output parts are covered.
 2. <ins>White Box Testing : </ins> In this testing, functionality, design structure, and code models are covered.
 3. <ins>Gray Box Testing : </ins> In this testing, analysis of code performance, relevant test cases,
-methods, and functions are covered.<a href="https://www.geeksforgeeks.org/unit-testing-software-testing/">[6]</a>
+methods, and functions are covered.<a href="https://www.geeksforgeeks.org/unit-testing-software-testing/">[4]</a>
 
 
 # References:
