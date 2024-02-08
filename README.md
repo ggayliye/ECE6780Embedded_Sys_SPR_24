@@ -33,9 +33,64 @@ on the Discovery board.
 <br>
 This assignment will be completed in two steps:<br>
 
-Step 1: Converting the HAL Library Calls to Register Access <br>
-Step 2: Changing to the New LEDs <br>
+A): Converting the HAL Library Calls to Register Access <br>
+B): Changing to the New LEDs <br>
 
+Step-by-step instructions:<br>
+
+A): Converting the HAL Library Calls to Register Access <br>
+
+1. Use the RCC to enable the GPIOC peripheral clock<br>
+* Remove the __HAL_RCC_GPIOC_CLK_ENABLE() HAL library macro.<br>
+* Use the stm32f072xb.h header file to determine the register that 
+enables the GPIOC peripheral clock.<br>
+* Set the appropriate bit using bitwise operations and either a bitmask or defined bit name.<br>
+2. Configure the LED pins to slow-speed, push-pull output mode without pull-up/down resistors.<br>
+* Remove the GPIO_InitTypeDef struct and HAL_GPIO_Init() function call.<br>
+* The green and orange LEDs are on pins PC8 and PC9.<br>
+* Set the pins to general-purpose output mode in the MODER register.<br>
+* Set the pins to push-pull output type in the OTYPER register.<br>
+* Set the pins to low speed in the OSPEEDR register.<br>
+* Set to no pull-up/down resistors in the PUPDR register.<br>
+Each register map in the peripheral reference manual documents the starting state of bits in 
+the register. Although clearing bits that should already be zero is not always necessary, \
+it is good style to ensure that every bit is in a known state.<br>
+3. Initialize one pin logic high and the other to low.<br>
+* Remove the HAL_GPIO_WritePin() function call.<br>
+* Use either the ODR or BSRR register.<br>
+4. Toggle both pin output states within the endless loop.<br>
+* Remove the HAL_GPIO_TogglePin() function call.<br>
+* Use either the ODR or BSRR register.<br>
+5. Leave the HAL delay function within the loop. Otherwise, the LEDs will toggle too rapidly to<br>
+see. Feel free to change the duration to reasonable values.<br>
+
+B): Changing to the New LEDs <br>
+1. Use the Hardware Layout section of the Discovery board manual to find the pins connecting 
+to the red and blue LEDs.<br>
+* Page 13 of the Discovery board manual lists the STM32F0 pins used for LEDs.<br>
+* The red LED is labeled as LD5 and the blue as LD6 on the Discovery board.<br>
+* All LED pins are in the GPIOC peripheral.<br>
+2. Update the pin initialization and toggle code to use the new pins.<br>
+
+### Assignment 2: Configuring a GPIO Pin to Input and Reading a Button
+Requires to change the version of the flashing LED program to button press so that the LEDs will toggle instead
+of the delay.
+
+Instructions:<br>
+
+1. Use the Hardware Layout section of the Discovery board manual to find the pin connected to the
+“USER” button.<br>
+* The user button is labeled as B1 on the Discovery board.<br>
+* Search through and find the material on available buttons.<br>
+2. Use the RCC to enable the clock to the appropriate GPIO peripheral.<br>
+3. Configure the button pin to input mode with the internal pull-down resistor enabled.<br>
+* Set the pins to input mode in the MODER register.<br>
+* Set the pins to low speed in the OSPEEDR register.<br>
+* Enable the pull-down resistor in the PUPDR register.<br>
+4. Monitor the button pin input state within the endless program loop.<br>
+* Use the IDR register.<br>
+5. Toggle the LED pins when a button press is detected.<br>
+6. Include a software debounce routine to prevent multiple toggles on a single button press.<br>
 
 
 
