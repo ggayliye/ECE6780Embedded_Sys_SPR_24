@@ -101,52 +101,67 @@ with hardware register access. */
 
 
 //RCC:Reset and clock control. AHB: peripheral clock enable register. Pin PA0
-	RCC->AHBENR |= 1 << 17; // We know 17th bit from data sheet RM0091 on page 122 that says "Bit 17 IOPBEN: I/O port A clock enable".
 
-  HAL_Delay(2); //Delays 2 milli-sec
 
-	GPIOA->MODER &= ~(3<<0); //setting A0 to input mode
-	
-	//GPIOA->MODER |= 0x5000; //setting PC6 & 7. PC6 is connected to RED LED. PC7 is connected to BLUE LED.
-	
-	GPIOA->OSPEEDR &= ~(3<<0); //GPIO port output speed register to Low speed
-	GPIOA->PUPDR &= ~(3<<0); //GPIO port pull-up/pull-down register. enable pull down.
-	GPIOA->PUPDR |= (1<<1);
-	
-//	P=P&~(3<<0) |(1<<1);//AND comes first
-	
-	
-	//GPIOA->IDR &= 0x0; //off.
-	
-		GPIOC->ODR |= 1<<6;
-		GPIOC->ODR |= ~(1<<7); //GPIOC->ODR &= ~(1<<7);
+
+
+
+
+
+//	RCC->AHBENR |= 1 << 17; // We know 17th bit from data sheet RM0091 on page 122 that says "Bit 17 IOPBEN: I/O port A clock enable".
+
+//  HAL_Delay(2); //Delays 2 milli-sec
+
+//	GPIOA->MODER &= ~(3<<0); //setting A0 to input mode
+//	
+//	//GPIOA->MODER |= 0x5000; //setting PC6 & 7. PC6 is connected to RED LED. PC7 is connected to BLUE LED.
+//	
+//	GPIOA->OSPEEDR &= ~(3<<0); //GPIO port output speed register to Low speed
+//	GPIOA->PUPDR &= ~(3<<0); //GPIO port pull-up/pull-down register. enable pull down.
+//	GPIOA->PUPDR |= (1<<1);
+//	
+////	P=P&~(3<<0) |(1<<1);//AND comes first
+//	
+//	
+//	//GPIOA->IDR &= 0x0; //off.
+//	
+//		GPIOC->ODR |= 1<<6;
+//		GPIOC->ODR |= ~(1<<7); //GPIOC->ODR &= ~(1<<7);
+//	
+
+//uint32_t debouncer = 0;
+
+//while (1) {
+////	HAL_Delay(200); // Delay 200ms
+//	//// Toggle the output state of both PC8 and PC9
+//	//HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_8 | GPIO_PIN_9);
+//	//	a=true;
+//		debouncer = (debouncer << 1); // Always shift every loop iteration
+//	if((GPIOA->IDR & 0x01)){
+//		debouncer |=0x01;
+//	}
+//	if (debouncer == 0xFFFFFFFF) {
+//// This code triggers repeatedly when button is steady high!
+//}
+//if (debouncer == 0x00000000) {
+//// This code triggers repeatedly when button is steady low!
+//}
+//	if (debouncer == 0x7FFFFFFF) {
+//// This code triggers only once when transitioning to steady high!
+//		GPIOC->ODR ^= 1<<6;
+//		GPIOC->ODR ^= 1<<7;
+//	
+//	}
+//	
+//	HAL_Delay(2); 
+//	
+//}
 	
 
-uint32_t debouncer = 0;
 
-while (1) {
-//	HAL_Delay(200); // Delay 200ms
-	//// Toggle the output state of both PC8 and PC9
-	//HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_8 | GPIO_PIN_9);
-	//	a=true;
-		debouncer = (debouncer << 1); // Always shift every loop iteration
-	if((GPIOA->IDR & 0x01)){
-		debouncer |=0x01;
-	}
-	if (debouncer == 0xFFFFFFFF) {
-// This code triggers repeatedly when button is steady high!
-}
-if (debouncer == 0x00000000) {
-// This code triggers repeatedly when button is steady low!
-}
-	if (debouncer == 0x7FFFFFFF) {
-// This code triggers only once when transitioning to steady high!
-		GPIOC->ODR ^= 1<<6;
-		GPIOC->ODR ^= 1<<7;
+
+
 	
-	}
-	
-	HAL_Delay(2); 
  
 //	else{
 //		 
@@ -182,18 +197,45 @@ if (debouncer == 0x00000000) {
 ////the button is high and not when it bounces low.
 //	
 	
-
-
-
-
 // When button is bouncing the bit-vector value is random since bits are set when
 //the button is high and not when it bounces low.	
-}
+
 
 //HAL_Delay(200); // Delay 200ms
 //// Toggle the output state of both PC8 and PC9
 //HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_8 | GPIO_PIN_9);
 	
+
+
+
+
+
+GPIOC->ODR |= 0x80;
+
+uint32_t debouncer = 0;
+while (1) {
+HAL_Delay(200); // Delay 200ms
+// Toggle the output state of both PC8 and PC9
+//HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_8 | GPIO_PIN_9);
+//// Toggle the output state of both PC8 and PC9
+//HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_8 | GPIO_PIN_9);
+
+
+	if(GPIOC->ODR == 0x80)
+		{  
+	GPIOC->ODR = 0x40;
+		}
+		else{
+			GPIOC->ODR = 0x80;
+		}
+}
+
+
+
+
+
+
+
 
 	
 
