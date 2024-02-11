@@ -1,4 +1,4 @@
-# ECE 6780  - Embedded System Design - Spring 2024
+# Lab 01: ECE 6780 Embedded System Design Spring 2024 
 Lab 1 codes for class .
 
 Authors : Kyle G. Gayliyev <br>
@@ -109,67 +109,70 @@ their work individually.
 
 
 <ins>2nd Week Notes:</ins> <br>
-
-
-<ins>Parner Individual Notes : </ins> <br>
-<ins>**XXX**</ins><br>
-N/A
-<br><br>
-<ins>**Kyle**</ins><br>
-N/A
-
-## Branching
-No branching is created nor necessary.
+Kept working on completing the assignment.
 
 ## Testing
 No Unit Test files are created as the nature of the project. Manual testing 
 are performed in each step to ensure code improvements.
 
 # Time Expenditures:
-<pre>Lab01: Predicted Hours: 12h		Actual Hours:	h		 </pre>
+<pre>Lab01: Predicted Hours: 12h		Actual Hours:	12h		 </pre>
 
-The actual hours recorded on top reflect the time spent with the partner to cooperate in the 
-lab assignment. It excludes time spent reading and understanding the lab assignment instructions 
-at the beginning of the lab.
-
-See below for partners' notes.
-
-<ins> Time Tracking Notes : </ins> <br>
-<ins>1st Week:</ins> <br>
- - Used times for the project went efficiently. All hours put into the project came out with results. 
-
-<ins>2nd Week:</ins> <br>
-- 
-
-
-<ins>**XXX**</ins><br>
-N/A
-<br><br>
-<ins>**Kyle**</ins><br>
-N/A <br>
-
-<em>Final Comments:</em> 
+The actual hours recorded on top reflect the time spent for the assignment including the time spent in labs. It excludes time spent reading and understanding the lab assignment instructions at the beginning of the lab (pre-lab work).
 
 # Comments to Evaluators:
 
-The assignment's key requirement points are explained below. <br>
+
+<em>To able to fully test the main.c, other files and tools are required.<br>
+For example, I created the project using the STM32CubeMX software first. Then <br>
+clicked "Code Generation" button from the top menu after adjusting necessary <br>
+settings. The instructions on how to adjust the settings will be given below. Then, <br>
+the software automatically opens the Keil uVision5 softwhere where we code main.c.<br>
+The main.c will be located under the "Application/User/Core" folder on the left menu of 
+the Keil uVision5 softwhere.</em><br>
+
+The main.c includes the 1st and 2nd part of the assignment. One of the assignments<br>
+must be commented out. To test the commented out part, you'll need to uncomment that <br>
+section and comment out the already uncommented section. Follow the comments<br>
+out the sections in the main.c file.
+
+## Testing Instructions:
+	
+	After reading the discussion above, let's adjust the settings of
+STM32CubeMX and Keil uVision5 softwares. <br><br>
+STM32CubeMX:<br>
+
+Select STM32F0 in the Series filter.<br>
+* Select STM32F0x2 in the Lines filter
+* Select LQFP64 in the Package filter <br>
+At this point, there should only be a few choices available, select STM32F072RBTx and press the OK
+button.<br>
+Come to Project ->Menu->Settings.<br>
+Name the new project. Select a directory where STMCube can create subfolders to store project files.<br>
+Change the Toolchain/IDE dropdown menu to MDK-ARM V5.<br>
+On the Project tab, move to the Code Generator tab at the top of the window.<br>
+STMCube may take a while to copy the files to the directory specified in the settings. Afterward,
+you may be asked if you want to open the project folder or project file itself. Click "project file".<br>
+Now you should be in the "Keil uVision5" program as it's opened automatically.<br><br>
+
+Keil uVision5:<br>
+
+Click "Flash" -> "Configure flash tools" from the top menu.<br>
+Click "Target" from the top menu. Find "Arm complier" menu and select 
+"use default compiler version..".
 
 
-
-
-
-
-
-<em>XXXX:</em><br>
-
+One the setting is done, replace the main.c file in the "Application/User/Core" folder <br>
+with my main.c file you downloaded.<br>
+From the top menu, "Project"->"Build Target".<br>
+Plug in your STM32F072 Discovery Microcontroller to your computer. <br>
+Click "Flash" -> "Download" from the top menu. Test it on your STM32F072 Discovery Microcontroller.
 
 
 
 Thank you for evaluating this project and providing feedback. <br>
 
 Have a wonderful day!
-
-# Assignment Specific Topics
 
 # Consulted Peers:
 N/A

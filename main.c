@@ -65,13 +65,15 @@ int main(void) {
 HAL_Init(); // Reset of all peripherals, init the Flash and Systick
 SystemClock_Config(); //Configure the system clock
 /* This example uses HAL library calls to control
-the GPIOC peripheral. You’ll be redoing this code
+the GPIOC peripheral. Youâ€™ll be redoing this code
 with hardware register access. */
 	
+	
+	// LAB 1 Part 1: //
 //__HAL_RCC_GPIOC_CLK_ENABLE(); // Enable the GPIOC clock in the RCC
 	
 	//RCC:Reset and clock control. AHB: peripheral clock enable register.
-	RCC->AHBENR |= 0x80000; //19th bit position. We know 19th bit from data sheet RM0091 on page 122 that says "Bit 19 IOPCEN: I/O port C clock enable".
+	RCC->AHBENR |= 0x80000; //"Bit 19 IOPCEN: I/O port C clock enable". 19th bit position. We know 19th bit from data sheet RM0091 on page 122.
 	
 	HAL_Delay(2); //Delays 2 milli-sec
 	
@@ -81,9 +83,9 @@ with hardware register access. */
 
 	GPIOC->OSPEEDR &= 0x0; //GPIO port output speed register to Low speed
 	
-	GPIOC->PUPDR &= 0x0; //GPIO port pull-up/pull-down register
+	GPIOC->PUPDR &= 0x0; //GPIO port pull-up/pull-down register: off
 	
-//the following codes are replaced on top
+	//the following codes are replaced on top ://
 //// Set up a configuration struct to pass to the initialization function
 //GPIO_InitTypeDef initStr = {GPIO_PIN_8 | GPIO_PIN_9,
 //GPIO_MODE_OUTPUT_PP,
@@ -95,68 +97,102 @@ with hardware register access. */
 
 //HAL_GPIO_WritePin(GPIOC, GPIO_PIN_8, GPIO_PIN_SET); // Start PC8 high 
 
+// END: "the following codes are replaced on top"//
 
 
-////////-----------------------------------------------/////////
+
+
+
+//Debouncing is removing unwanted input noise from buttons, 
+//switches or other user input. Debouncing prevents extra activations 
+//or slow functions from triggering too often. Debouncing is used in hardware 
+//switches, programs and websites.
+
+uint32_t debouncer = 0;
+
+
+//For Part 1, the following while loop part must be uncommented: //
+
+
+
+////GPIOC->ODR |= 0x80; //Let's enable color RED LED  (red is ON)
+
+//while (1) {
+//HAL_Delay(300); // Delay 200ms benween blinks.
+//// Toggle the output state of both PC8 and PC9
+////HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_8 | GPIO_PIN_9);
+////// Toggle the output state of both PC8 and PC9
+////HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_8 | GPIO_PIN_9);
+
+//	if(GPIOC->ODR == 0x80) {// if red is on, 
+//	  	GPIOC->ODR = 0x40;
+//		  }
+//		else{
+//			GPIOC->ODR = 0x80;
+//		}
+//}
+
+// END: "For Part 1, the following while loop part must be uncommented:"//
+
+
+
+
+////////------------------Part 2-----------------------------/////////
 
 
 //RCC:Reset and clock control. AHB: peripheral clock enable register. Pin PA0
 
 
+RCC->AHBENR |= 1 << 17; // We know 17th bit from data sheet RM0091 on page 122 that says "Bit 17 IOPBEN: I/O port A clock enable".
+//to make 17th bit "1", which will enable it, we do "<<17" which will move 17 digits from right to left and make the 18th digit 1.
+//Since the counting starts from "0", 17th bit will be 18th digit when counting from right. 
+//"|" is an OR operator. In this case, it will just copy everything as it is and only change
+// the 18th digit to "1".
 
+HAL_Delay(2); //Delays 2 milli-sec
 
+GPIOA->MODER &= ~(3 << 0); //setting A0 to input mode. The "3" in decimal is "11" in binary. "7" in decimal is "111" binary.
+// 0th moder takes 2 bits. So 11 will make the last 1st 2 digits to 00 because The "~" makes it opposite".
+// 
 
+GPIOA->OSPEEDR &= ~(3 << 0); //GPIO port output speed register to Low speed
+GPIOA->PUPDR &= ~(3 << 0); //GPIO port pull-up/pull-down register. enable pull down.
+GPIOA->PUPDR |= (1 << 1);// shift left 1 digit and make it "1".
 
+GPIOC->ODR |= 1 << 6; // shift 6 digits from right to left and make the next digit 1.
+GPIOC->ODR |= ~(1 << 7); //shift 7 digits from right to left and make the next digit 1.then reverse.
 
-//	RCC->AHBENR |= 1 << 17; // We know 17th bit from data sheet RM0091 on page 122 that says "Bit 17 IOPBEN: I/O port A clock enable".
-
-//  HAL_Delay(2); //Delays 2 milli-sec
-
-//	GPIOA->MODER &= ~(3<<0); //setting A0 to input mode
-//	
-//	//GPIOA->MODER |= 0x5000; //setting PC6 & 7. PC6 is connected to RED LED. PC7 is connected to BLUE LED.
-//	
-//	GPIOA->OSPEEDR &= ~(3<<0); //GPIO port output speed register to Low speed
-//	GPIOA->PUPDR &= ~(3<<0); //GPIO port pull-up/pull-down register. enable pull down.
-//	GPIOA->PUPDR |= (1<<1);
-//	
-////	P=P&~(3<<0) |(1<<1);//AND comes first
-//	
-//	
-//	//GPIOA->IDR &= 0x0; //off.
-//	
-//		GPIOC->ODR |= 1<<6;
-//		GPIOC->ODR |= ~(1<<7); //GPIOC->ODR &= ~(1<<7);
-//	
-
-//uint32_t debouncer = 0;
-
-//while (1) {
-////	HAL_Delay(200); // Delay 200ms
-//	//// Toggle the output state of both PC8 and PC9
-//	//HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_8 | GPIO_PIN_9);
-//	//	a=true;
-//		debouncer = (debouncer << 1); // Always shift every loop iteration
-//	if((GPIOA->IDR & 0x01)){
-//		debouncer |=0x01;
-//	}
-//	if (debouncer == 0xFFFFFFFF) {
-//// This code triggers repeatedly when button is steady high!
-//}
-//if (debouncer == 0x00000000) {
-//// This code triggers repeatedly when button is steady low!
-//}
-//	if (debouncer == 0x7FFFFFFF) {
-//// This code triggers only once when transitioning to steady high!
-//		GPIOC->ODR ^= 1<<6;
-//		GPIOC->ODR ^= 1<<7;
-//	
-//	}
-//	
-//	HAL_Delay(2); 
-//	
-//}
+while (1){
 	
+    debouncer = (debouncer << 1); // Always shift every loop iteration. shift right to left one digit.
+    if ((GPIOA->IDR & 0x01)) //reads the pull-down resistance. If input is set/high.
+    {
+        debouncer |= 0x01; //set lowest bit of bit vector
+    }
+    if (debouncer == 0xFFFFFFFF)
+    {
+        // This code triggers repeatedly when button is steady high!
+    }
+    if (debouncer == 0x00000000)
+    {
+        // This code triggers repeatedly when button is steady low!
+    }
+    if (debouncer == 0x7FFFFFFF)
+    {
+        // This code triggers only once when transitioning to steady high!
+        GPIOC->ODR ^= 1 << 6; // "^" is XOR 
+        GPIOC->ODR ^= 1 << 7;
+
+    }
+
+    HAL_Delay(2);//delay 2ms to avoid errors.
+
+}
+	
+
+
+
+
 
 
 
@@ -205,57 +241,14 @@ with hardware register access. */
 //// Toggle the output state of both PC8 and PC9
 //HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_8 | GPIO_PIN_9);
 	
-
-
-
-
-
-GPIOC->ODR |= 0x80;
-
-uint32_t debouncer = 0;
-while (1) {
-HAL_Delay(200); // Delay 200ms
-// Toggle the output state of both PC8 and PC9
-//HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_8 | GPIO_PIN_9);
-//// Toggle the output state of both PC8 and PC9
-//HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_8 | GPIO_PIN_9);
-
-
-	if(GPIOC->ODR == 0x80)
-		{  
-	GPIOC->ODR = 0x40;
-		}
-		else{
-			GPIOC->ODR = 0x80;
-		}
 }
 
 
-
-
-
-
-
-
-	
-
-	 
-
-	
-
-}
 
 		//RCC->AHBENR |= 0x0; //disable the 19th bit "C clock"; "reset button"
 		
 		//GPIOC->ODR = 0x40 ; //GPIO port output data register (ODR6)Pin 6 is ON (red) & PIN 7 is OFF.
 		//GPIOA->PUPDR &= 0x0;
-
-
-
-	
-	
-	
-
 
 
 
