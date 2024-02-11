@@ -159,8 +159,8 @@ GPIOA->OSPEEDR &= ~(3 << 0); //GPIO port output speed register to Low speed
 GPIOA->PUPDR &= ~(3 << 0); //GPIO port pull-up/pull-down register. enable pull down.
 GPIOA->PUPDR |= (1 << 1);// shift left 1 digit and make it "1".
 
-GPIOC->ODR |= 1 << 6; // shift 6 digits from right to left and make the next digit 1.
-GPIOC->ODR |= ~(1 << 7); //shift 7 digits from right to left and make the next digit 1.then reverse.
+GPIOC->ODR |= 1 << 6; // 6th bit = 1. shift 6 digits from right to left and make the next digit 1.
+GPIOC->ODR |= ~(1 << 7); 6th bit = 0. //shift 7 digits from right to left and make the next digit 1.then reverse.
 
 while (1){
 	
