@@ -137,8 +137,7 @@ section and comment out the already uncommented section. Follow the comments<br>
 out the sections in the main.c file.
 
 ## Testing Instructions:
-	
-	After reading the discussion above, let's adjust the settings of
+After reading the discussion above, let's adjust the settings of
 STM32CubeMX and Keil uVision5 softwares. <br><br>
 STM32CubeMX:<br>
 
